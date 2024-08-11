@@ -6,4 +6,5 @@ use App\Http\Controllers\DataController;
 Route::controller(DataController::class)->group(function () {
     Route::get('/', 'index');
     Route::post('/store', 'store')->name('data.store');
+    Route::delete('/destroy/{data}', 'destroy')->name('data.destroy');
 });

@@ -64,12 +64,17 @@
                             <h6>{{ $data->note }}</h6>
                             <p class="text-primary">{{ $data->finance_date }}</p>
                         </div>
-                        <div>
+                        <div class="d-flex flex-column align-items-end">
                             @if ($data->type == 'in')
                                 <p class="text-success">+ {{ $data->amount }} ကျပ်</p>
                             @else
                                 <p class="text-danger">- {{ $data->amount }} ကျပ်</p>
                             @endif
+                            <form action="{{ route('data.destroy', $data->id) }}" method="POST">
+                                @csrf
+                                @method('DELETE')
+                                <input type="submit" value="Delete" class="btn btn-sm btn-danger">
+                            </form>
                         </div>
                     </div>
                 @endforeach

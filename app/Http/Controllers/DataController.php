@@ -13,9 +13,9 @@ class DataController extends Controller
         $today = Carbon::today()->toDateString();
 
         $datas = Data::orderBy('id', 'desc')->paginate(5);
-        $today_datas = Data::whereDate('finance_date',$today)->get();
-        $today_income = $today_datas->where('type','in')->sum('amount');
-        $today_outcome = $today_datas->where('type','out')->sum('amount');
+        $today_datas = Data::whereDate('finance_date', $today)->get();
+        $today_income = $today_datas->where('type', 'in')->sum('amount');
+        $today_outcome = $today_datas->where('type', 'out')->sum('amount');
 
         $day_arr = [];
         $income_amount = [];
@@ -33,11 +33,18 @@ class DataController extends Controller
             $income_amount[] = Data::whereDate('finance_date', $date)->whereType('in')->sum('amount');
             $outcome_amount[] = Data::whereDate('finance_date', $date)->whereType('out')->sum('amount');
         }
-        return view('index', compact('datas', 'today_datas', 'today_income','today_outcome','day_arr','income_amount','outcome_amount'));
+        return view('index', compact('datas', 'today_datas', 'today_income', 'today_outcome', 'day_arr', 'income_amount', 'outcome_amount'));
     }
 
-    function store(DataRequest $request){
+    function store(DataRequest $request)
+    {
         Data::create($request->all());
-        return back()->with(['success'=>'စာရင်းသွင်းခြင်းအောင်မြင်ပါသည် !']);
+        return back()->with(['success' => 'စာရင်းသွင်းခြင်းအောင်မြင်ပါသည်']);
+    }
+
+    function destroy(Data $data)
+    {
+        $data->delete();
+        return back()->with(['success' => 'စာရင်းဖျက်ခြင်းအောင်မြင်ပါသည်']);
     }
 }
